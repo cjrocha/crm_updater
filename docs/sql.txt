@@ -1,0 +1,150 @@
+CREATE TABLE `addresses` (
+	`AddressType` VARCHAR(150) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`AddressName` VARCHAR(200) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`StreetAddress` VARCHAR(300) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`StreetAddress2` VARCHAR(300) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Suburb` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`City` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Region` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Country` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`PostalCode` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`IsDefault` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryInstruction` VARCHAR(300) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`ParentID` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci'
+)
+COMMENT='Table containing the address information of customers, relates to customers table with ParentID'
+COLLATE='utf8mb4_0900_ai_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `currencies` (
+	`CurrencyCode` VARCHAR(5) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Description` VARCHAR(60) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Guid` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`LastModifiedOn` VARCHAR(25) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`CurrencyId` INT(10) NOT NULL
+)
+COMMENT='This is the Currencies table and it bounded with the other tables by GUID column'
+COLLATE='utf8mb4_0900_ai_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `customers` (
+	`Addresses` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`TaxCode` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`TaxRate` DECIMAL(8,3) NULL DEFAULT NULL,
+	`CustomerCode` VARCHAR(80) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`CustomerName` VARCHAR(200) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`GSTVATNumber` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`BankName` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`BankBranch` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`BankAccount` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Website` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`PhoneNumber` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`FaxNumber` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`MobileNumber` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DDINumber` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`TollFreeNumber` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Email` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`EmailCC` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Notes` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Taxable` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`XeroContactId` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DiscountRate` DECIMAL(8,3) NULL DEFAULT NULL,
+	`StopCredit` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Obsolete` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`XeroSalesAccount` INT(10) NOT NULL DEFAULT '0',
+	`CustomerType` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`PaymentTerm` VARCHAR(150) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`ContactFirstName` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`ContactLastName` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Guid` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`LastModifiedOn` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Currency.CurrencyCode` VARCHAR(20) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Currency.Guid` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci'
+)
+COMMENT='Customers table, relates to addresses table, Xero account id, currency id and has unique GUID'
+COLLATE='utf8mb4_0900_ai_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `invoices` (
+	`InvoiceNumber` VARCHAR(25) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`OrderNumber` VARCHAR(25) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`QuoteNumber` VARCHAR(40) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`InvoiceDate` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DueDate` VARCHAR(40) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`InvoiceStatus` VARCHAR(30) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Comments` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryInstruction` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`SubTotal` DECIMAL(8,3) UNSIGNED ZEROFILL NOT NULL,
+	`TaxTotal` DECIMAL(8,3) UNSIGNED ZEROFILL NOT NULL,
+	`Total` DECIMAL(8,3) UNSIGNED ZEROFILL NOT NULL,
+	`BCSubTotal` DECIMAL(8,3) UNSIGNED ZEROFILL NOT NULL,
+	`BCTaxTotal` DECIMAL(8,3) UNSIGNED ZEROFILL NOT NULL,
+	`BCTotal` DECIMAL(8,3) UNSIGNED ZEROFILL NOT NULL,
+	`InvoiceLines` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Guid` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Customer.CustomerCode` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Customer.CustomerName` VARCHAR(250) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Customer.CurrencyId` INT(10) NOT NULL DEFAULT '0',
+	`Customer.Guid` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Customer.LastModifiedOn` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.AddressType` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.AddressName` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.StreetAddress` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.StreetAddress2` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.Suburb` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.City` VARCHAR(150) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.Region` VARCHAR(150) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.Country` VARCHAR(150) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.PostalCode` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`DeliveryAddress.IsDefault` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci'
+)
+COMMENT='This table containes all the invoice data, is bouded to invoice_lines and customers '
+COLLATE='utf8mb4_0900_ai_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `invoice_lines` (
+	`LineNumber` INT(10) NOT NULL,
+	`LineType` VARCHAR(50) NULL DEFAULT '' COLLATE 'utf8mb4_0900_ai_ci',
+	`OrderQuantity` INT(10) NOT NULL,
+	`InvoiceQuantity` INT(10) NOT NULL,
+	`UnitPrice` DECIMAL(8,3) NOT NULL DEFAULT '0.000',
+	`DiscountRate` DECIMAL(8,3) NOT NULL DEFAULT '0.000',
+	`LineTotal` DECIMAL(8,3) NOT NULL DEFAULT '0.000',
+	`Comments` VARCHAR(150) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`TaxRate` DECIMAL(8,0) NOT NULL,
+	`LineTax` DECIMAL(8,0) NOT NULL,
+	`BCUnitPrice` DECIMAL(8,0) NOT NULL,
+	`Guid` VARCHAR(40) NOT NULL DEFAULT '' COLLATE 'utf8mb4_0900_ai_ci',
+	`Product.Guid` VARCHAR(40) NOT NULL DEFAULT '' COLLATE 'utf8mb4_0900_ai_ci',
+	`Product.ProductCode` VARCHAR(40) NULL DEFAULT '' COLLATE 'utf8mb4_0900_ai_ci',
+	`Product.ProductDescription` VARCHAR(250) NULL DEFAULT '' COLLATE 'utf8mb4_0900_ai_ci',
+	`ParentID` VARCHAR(40) NOT NULL DEFAULT '' COLLATE 'utf8mb4_0900_ai_ci'
+)
+COMMENT='Invoice lines table that is bounded to invoices table by parent_id'
+COLLATE='utf8mb4_0900_ai_ci'
+ENGINE=InnoDB
+;
+
+CREATE TABLE `products` (
+	`ProductCode` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`ProductDescription` VARCHAR(200) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`LastCost` DECIMAL(8,3) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+	`DefaultPurchasePrice` DECIMAL(8,3) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+	`DefaultSellPrice` DECIMAL(8,3) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+	`CustomerSellPrice` DECIMAL(8,3) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+	`AverageLandPrice` DECIMAL(8,3) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+	`XeroTaxCode` VARCHAR(20) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`XeroTaxRate` DECIMAL(8,3) UNSIGNED ZEROFILL NULL DEFAULT NULL,
+	`ProductGroup` VARCHAR(500) NULL DEFAULT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Guid` VARCHAR(40) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`LastModifiedOn` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`productId` INT(10) NOT NULL
+)
+COMMENT='Products data base has just a few columns imported from Unleashed Api and it is bouinded to the other tables by GUID'
+COLLATE='utf8mb4_0900_ai_ci'
+ENGINE=InnoDB
+;
