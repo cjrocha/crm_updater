@@ -92,6 +92,8 @@ class UnleashedScraper():
             page_size (int, optional): Defaults to None.
             qfilter_key (str, optional): query filter key, diferent for each endpoint. See unleashed API docs for more details. Defaults to None.
             qfilter_val (str, optional): query filter value. Defaults to None.
+            
+            Reports any error found during process in console.
         """
 
         query_string = ''
