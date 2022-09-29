@@ -1,12 +1,3 @@
-###
-Creator: Andrei Chirila
-         cjrocha.webs@gmail.com
-         unpontdev.com
-Code: Python 3.7+
-Date: Sept. 2022
-###
-
-
 ### Unleashed API Scraper
 - Api Credits are stored in scrapper.py
 - DB Credits are stored in libs/db_connetcion.py
